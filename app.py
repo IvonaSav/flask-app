@@ -1,33 +1,33 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import sqlite3
 
 app = Flask(__name__)
 
+@app.route('/')
+def home():
+    return 'Welcome to the Flask API!'
 
-@app.route('/average_spending_by_age', methods=['GET'])
-def average_spending_by_age():
-
-    user_id = request.args.get('user_id', type=int)
-
-
-    connection = sqlite3.connect('users_vouchers.db')
-    cursor = connection.cursor()
-
-
-    cursor.execute('''
-        SELECT u.user_id, u.name, u.email, u.age, SUM(us.money_spent) AS total_spending
-        FROM user_info u
-        JOIN user_spending us ON u.user_id = us.user_id
-        WHERE u.user_id = ?
-        GROUP BY u.user_id
-    ''', (user_id,))
-
-    result = cursor.fetchone()
+@app.route('/total_spending_by_age', methods=['GET'])
+def total_spending_by_age():
+    print(request.url)
+    return jsonify({'message': 'This is the total spending!'})
 
 
-    cursor.close()
-    connection.close()
+if __name__ == '__main__':
+    app.run(debug=True)
 
- 
+@app.route('/total_spent/<int:user_id>', methods=['GET'])
+def total_spent(user_id):
+    return f'Welcome to the Flask API! User ID: {user_id}'
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+@app.route('/write_to_mongodb', methods=['POST'])
+def write_to_mongodb():
+  
+
+    return jsonify({'message': 'Data successfully written to MongoDB'})
+
 if __name__ == '__main__':
     app.run(debug=True)
