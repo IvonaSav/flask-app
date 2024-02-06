@@ -3,9 +3,13 @@ import sqlite3
 
 app = Flask(__name__)
 
+db_path = 'C:\\Users\\User\\Desktop\\users_vouchers.db'
+connection = sqlite3.connect(db_path)
+
 @app.route('/')
 def home():
     return 'Welcome to the Flask API!'
+
 
 @app.route('/total_spending_by_age', methods=['GET'])
 def total_spending_by_age():
@@ -20,8 +24,8 @@ def total_spending_by_age():
     pass
     
 
-    db_path = 'C:\\Users\\User\\Desktop\\users_vouchers.db'
-    connection = sqlite3.connect(db_path)
+    # db_path = 'C:\\Users\\User\\Desktop\\users_vouchers.db'
+    # connection = sqlite3.connect(db_path)
     cursor = connection.cursor()
 
     cursor.execute('''
@@ -35,7 +39,7 @@ def total_spending_by_age():
     result = cursor.fetchone()
 
     cursor.close()
-    connection.close()
+    # connection.close()
 
     if result:
         user_info = {
