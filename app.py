@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import sqlite3
+from pymongo import MongoClient
 
 app = Flask(__name__)
 
@@ -7,7 +8,7 @@ app = Flask(__name__)
 def home():
     return 'Welcome to the Flask API!'
 
-
+#FIRST ENDPOINT
 @app.route('/total_spending_by_age/<int:user_id>', methods=['GET'])
 def total_spending_by_age(user_id):
     print(request.url)
@@ -52,7 +53,7 @@ def total_spending_by_age(user_id):
     else:
          return jsonify({'error': 'User not found'}), 404
 
-
+#SECONDENDPOINT
 @app.route('/total_spent/<int:user_id>', methods=['GET'])
 def total_spent(user_id):
     age_ranges = {
@@ -105,13 +106,35 @@ def total_spent(user_id):
         else:
             return jsonify({'error': 'No matching age range found'}), 404
 
-if __name__ == '__main__':
-    app.run(debug=True)
-# @app.route('/write_to_mongodb', methods=['POST'])
-# def write_to_mongodb():
+
+#THIRDENDPOINT
+    
+client = MongoClient('mongodb://localhost:27017/')
+db= client['flask_appDb']
+collection= db['flask_app']
+
+@app.route('/write_to_mongodb', methods=['POST'])
+def write_to_mongodb():
+    try:
+        data = request.get_json()
+
+        # Validate the input JSON
+        if 'user_id' not in data or 'total_spending' not in data:
+            return jsonify({'error': 'Invalid input JSON'}), 400
+
+        user_id = data['user_id']
+        total_spending = data['total_spending']
+
+        # Insert data into MongoDB
+        result = collection.insert_one({'user_id': user_id, 'total_spending': total_spending})
+
+        return jsonify({'message': 'Data successfully inserted', 'inserted_id': str(result.inserted_id)}), 201
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
   
 
 #     return jsonify({'message': 'Data successfully written to MongoDB'})
 
-# if __name__ == '__main__':
-#     app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)
