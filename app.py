@@ -132,9 +132,8 @@ def write_to_mongodb():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-  
 
-#     return jsonify({'message': 'Data successfully written to MongoDB'})
+    # return jsonify({'message': 'Data successfully written to MongoDB'})
 
 if __name__ == '__main__':
     app.run(debug=True)
