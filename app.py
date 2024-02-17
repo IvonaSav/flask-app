@@ -113,9 +113,10 @@ client = MongoClient('mongodb://localhost:27017/')
 db= client['flask_appDb']
 collection= db['flask_app']
 
-@app.route('/write_to_mongodb', methods=['POST'])
+@app.route('/write_to_mongodb', methods=['GET','POST'])
 def write_to_mongodb():
-    try:
+    if request.method=='POST':
+     try:
         data = request.get_json()
 
         # Validate the input JSON
@@ -130,10 +131,13 @@ def write_to_mongodb():
 
         return jsonify({'message': 'Data successfully inserted', 'inserted_id': str(result.inserted_id)}), 201
 
-    except Exception as e:
+    
+     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-    # return jsonify({'message': 'Data successfully written to MongoDB'})
+    elif request.method=='GET':
+        return jsonify({'messsage': 'GET request successfully handled'}),200
+
 
 if __name__ == '__main__':
     app.run(debug=True)
