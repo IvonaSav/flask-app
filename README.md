@@ -25,3 +25,34 @@ This Flask application serves as an API for analyzing user data related to order
 git clone https://github.com/IvonaSav/flask-app.git
 #### Navigate to the *cloned directory*
 cd flask-app
+## API Endpoints
+#### First Endpoint
+```http
+GET /total_spending_by_age/<int:user_id>
+``` 
+
+* ##### Description: 
+
+*Retrieves the total spending for a specific user based on their user ID*
+
+* ##### Response:
+
+```json
+
+{
+  
+  "age": 48,
+ 
+  "email": "elizabeth_cruz@example.com",
+  
+  "name": "Elizabeth Cruz",
+  
+  "total_spending": 22778.980000000003,
+  
+  "user_id": 123
+  
+}
+``` 
+
+
+  
