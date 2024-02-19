@@ -53,6 +53,89 @@ GET /total_spending_by_age/<int:user_id>
   
 }
 ``` 
+#### Second Endpoint
+```http
+GET /total_spent/<int:user_id>
+```
+
+* ##### Description:
+
+*Retrieves the average spending in a specific age range for a user based on their user ID.*
+
+* ##### Response:
+
+```json
+{
+
+  "average_spending": 2485.771063444109
+
+}
+``` 
+
+#### Third Endpoint
+```http
+POST /write_to_mongodb
+```
+
+* ##### Description:
+  
+*This API endpoint allows clients to submit user data that exceeds specific
+amount of spending in JSON format, which is then inserted into a MongoDB
+collection.*
+
+* Request:
+```json
+{ "user_id": 1, "total_spending": 2000 }
+```
+
+* Response (POST):
+```json
+{
+    "inserted_id": "65d3ad4f2520fdb88a4ca900",
+    "message": "Data successfully inserted"
+}
+```
+* Response(GET):
+```json
+{
+    "messsage": "GET request successfully handled"
+}
+```
+
+## Unit Tests
+
+*To ensure the proper functionality of the Flask application, unit tests have been provided. Follow the steps below to run the unit tests:*
+
+Open a terminal in the project directory and run the following command to install the necessary packages:
+```bash
+pip install requests
+```
+
+* Run the Flask application:
+```bash
+python app.py
+```
+The application will be accessible at http://127.0.0.1:5000
+
+* Run the unit tests:
+```bash
+python test_flask_app.py
+```
+* The test_home_endpoint checks the home endpoint to ensure it returns a welcome message.
+
+* The test_total_spending_by_age_endpoint and test_total_spent_endpoint check the total spending endpoints for specific user IDs.
+
+* The test_write_to_mongodb_endpoint checks the write to MongoDB endpoint for both GET and POST requests.
+
+* Review Test Results:
+  
+```bash
+.....
+----------------------------------------------------------------------
+Ran 5 tests in 0.012s
+
+OK
+```
 
 
   
