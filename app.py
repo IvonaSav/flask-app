@@ -1,8 +1,13 @@
 from flask import Flask, request, jsonify
 import sqlite3
 from pymongo import MongoClient
+from telegram import Bot
 
 app = Flask(__name__)
+
+TELEGRAM_BOT_TOKEN = '7094596888:AAH5pCyXmD3NgyNTlwfJPzj6iA_FEl9agiQ'
+
+telegram_bot = Bot(token=TELEGRAM_BOT_TOKEN)
 
 @app.route('/')
 def home():
@@ -100,12 +105,19 @@ def total_spent(user_id):
 
             cursor.close()
             connection.close()
+            
+            send_telegram_message(user_id, f"Average spending for age range {found_range}: {average_spending}")
 
 
             return jsonify({'average_spending': average_spending})
         else:
             return jsonify({'error': 'No matching age range found'}), 404
 
+def send_telegram_message(user_id, message):
+    try:
+        telegram_bot.send_message(chat_id=user_id, text=message)
+    except Exception as e:
+        print(f"Telegram message sending failed: {str(e)}")
 
 #THIRDENDPOINT
     
