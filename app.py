@@ -5,9 +5,6 @@ from telegram import Bot
 
 app = Flask(__name__)
 
-TELEGRAM_BOT_TOKEN = '7094596888:AAH5pCyXmD3NgyNTlwfJPzj6iA_FEl9agiQ'
-
-telegram_bot = Bot(token=TELEGRAM_BOT_TOKEN)
 
 @app.route('/')
 def home():
@@ -17,10 +14,6 @@ def home():
 @app.route('/total_spending_by_age/<int:user_id>', methods=['GET'])
 def total_spending_by_age(user_id):
     print(request.url)
-    # return jsonify({'message': 'This is the total spending!'})
-    # user_id = request.args.get('user_id', type=int)
-    print(request.url)
-
 
     print(f"User ID: {user_id}")
 
@@ -106,18 +99,18 @@ def total_spent(user_id):
             cursor.close()
             connection.close()
             
-            send_telegram_message(user_id, f"Average spending for age range {found_range}: {average_spending}")
+            # send_telegram_message(user_id, f"Average spending for age range {found_range}: {average_spending}")
 
 
             return jsonify({'average_spending': average_spending})
         else:
             return jsonify({'error': 'No matching age range found'}), 404
 
-def send_telegram_message(user_id, message):
-    try:
-        telegram_bot.send_message(chat_id=user_id, text=message)
-    except Exception as e:
-        print(f"Telegram message sending failed: {str(e)}")
+# def send_telegram_message(user_id, message):
+#     try:
+#         telegram_bot.send_message(chat_id=user_id, text=message)
+#     except Exception as e:
+#         print(f"Telegram message sending failed: {str(e)}")
 
 #THIRDENDPOINT
     

@@ -24,7 +24,7 @@ class TestFlaskApp(unittest.TestCase):
         response = requests.post(f'{self.base_url}/write_to_mongodb', json=data)
         self.assertEqual(response.status_code, 201)
         response_get= requests.get(f'{self.base_url}/write_to_mongodb')
-        self.assertEqual(response_get.status_code, 200)
+        self.assertEqual(response_get.status_code, 200) 
 
 
 if __name__== '__main__':
