@@ -1,11 +1,15 @@
 from flask import Flask, request, jsonify
-import sqlite3
+import sqlite3,os
 from pymongo import MongoClient
 from telegram import Bot
-
+import requests
 app = Flask(__name__)
 
 
+TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+
+telegram_bot = Bot(token=TELEGRAM_BOT_TOKEN)
+telegram_group_id= "flask_application"
 @app.route('/')
 def home():
     return 'Welcome to the Flask API!'
@@ -99,18 +103,39 @@ def total_spent(user_id):
             cursor.close()
             connection.close()
             
-            # send_telegram_message(user_id, f"Average spending for age range {found_range}: {average_spending}")
+            send_telegram_message(user_id, f"Average spending for age range {found_range}: {average_spending}")
 
 
             return jsonify({'average_spending': average_spending})
         else:
             return jsonify({'error': 'No matching age range found'}), 404
+        
+def send_telegram_message(user_id, message):
+    try:
+        telegram_api_url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=@{telegram_group_id}&text={message}"
+        tel_resp = requests.get(telegram_api_url)
+
+        if tel_resp.status_code == 200:
+            print("INFO: Notification has been sent on Telegram")
+        else:
+            print("ERROR: Could not send Message")
+    except Exception as e:
+        print(f"Telegram message sending failed: {str(e)}")
 
 # def send_telegram_message(user_id, message):
 #     try:
 #         telegram_bot.send_message(chat_id=user_id, text=message)
 #     except Exception as e:
 #         print(f"Telegram message sending failed: {str(e)}")
+        
+# def send_telegram_message(user_id, message):
+#     telegram_api_url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=@{telegram_group_id}&text={message}"
+#     tel_resp = request.get(telegram_api_url)
+
+#     if tel_resp.status_code == 200:
+#                 print("INFO: Notification has been sent on Telegram")
+#     else:
+#                 print("ERROR: Could not send Message")
 
 #THIRDENDPOINT
     
