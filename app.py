@@ -49,7 +49,7 @@ def total_spending_by_age(user_id):
             'name': result[1],
             'email': result[2],
             'age': result[3],
-            'total_spending': result[4]
+            'total_spending':round(result[4],2)
         }
         return jsonify(user_info)
     else:
@@ -99,6 +99,7 @@ def total_spent(user_id):
 
 
             average_spending = cursor.fetchone()[0]
+            average_spending=round(average_spending, 2)
 
             cursor.close()
             connection.close()
@@ -122,20 +123,6 @@ def send_telegram_message(user_id, message):
     except Exception as e:
         print(f"Telegram message sending failed: {str(e)}")
 
-# def send_telegram_message(user_id, message):
-#     try:
-#         telegram_bot.send_message(chat_id=user_id, text=message)
-#     except Exception as e:
-#         print(f"Telegram message sending failed: {str(e)}")
-        
-# def send_telegram_message(user_id, message):
-#     telegram_api_url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=@{telegram_group_id}&text={message}"
-#     tel_resp = request.get(telegram_api_url)
-
-#     if tel_resp.status_code == 200:
-#                 print("INFO: Notification has been sent on Telegram")
-#     else:
-#                 print("ERROR: Could not send Message")
 
 #THIRDENDPOINT
     
