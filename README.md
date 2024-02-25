@@ -25,7 +25,23 @@ This Flask application serves as an API for analyzing user data related to order
 git clone https://github.com/IvonaSav/flask-app.git
 #### Navigate to the *cloned directory*
 cd flask-app
+
+* Run the Flask application:
+```bash
+python app.py
+```
+The application will be accessible at http://127.0.0.1:5000
+
 ## API Endpoints
+
+#### API Endpoint: Home
+
+#### Welcome to the Flask API!
+http://localhost:5000/
+
+* ##### Description:
+*Receive a welcome message upon accessing the Flask API. This endpoint does not require additional parameters and always returns the message "Welcome to the Flask API!".*
+
 #### First Endpoint
 ```http
 GET /total_spending_by_age/<int:user_id>
@@ -47,7 +63,7 @@ GET /total_spending_by_age/<int:user_id>
   
   "name": "Elizabeth Cruz",
   
-  "total_spending": 22778.980000000003,
+  "total_spending": 22778.98,
   
   "user_id": 123
   
@@ -67,7 +83,7 @@ GET /total_spent/<int:user_id>
 ```json
 {
 
-  "average_spending": 2485.771063444109
+  "average_spending": 2485.77
 
 }
 ``` 
@@ -111,12 +127,6 @@ Open a terminal in the project directory and run the following command to instal
 pip install requests
 ```
 
-* Run the Flask application:
-```bash
-python app.py
-```
-The application will be accessible at http://127.0.0.1:5000
-
 * Run the unit tests:
 ```bash
 python test_flask_app.py
@@ -136,6 +146,10 @@ Ran 5 tests in 0.012s
 
 OK
 ```
+## Telegram integration
 
+The Flask application integrates with Telegram to send notifications about average spending. The `send_telegram_message` function sends a message to the specified Telegram group when invoked.
 
+```plaintext
+Average spending for age range >47: 2485.77
   
